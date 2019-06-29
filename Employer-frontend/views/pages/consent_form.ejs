@@ -332,6 +332,16 @@ For more information, see:
 </script>
 
 <script type="text/javascript">
+
+  window.onload = f1;
+
+  function f1() {
+
+    if (window.localStorage.getItem('token') === null || window.localStorage.getItem('token') === '' || window.localStorage.getItem('token') === "undefined") {
+      window.location.replace("/");
+    }
+  }
+
   function consent() {
     var url = document.getElementById("url").value;
     var appNo = document.getElementById("appNo").value;
@@ -360,10 +370,10 @@ For more information, see:
               console.log(xhr.responseText);
               document.getElementById('output').innerHTML = JSON.parse(xhr.responseText).message;
             }
-            else if(xhr.readyState === 4 && xhr.status === 409){
+            else if (xhr.readyState === 4 && xhr.status === 409) {
               document.getElementById('output').innerHTML = JSON.parse(xhr.responseText).message;
             }
-            else{
+            else {
               document.getElementById('output').innerHTML = JSON.parse(xhr.responseText).message;
             }
 

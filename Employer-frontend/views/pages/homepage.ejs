@@ -350,17 +350,20 @@ For more information, see:
 
         let params = JSON.stringify({ employeeId, password });
         xhr.open(method, url, true);
+        //window.localStorage.setItem('token',JSON.parse(xhr.responseText).token);
 
         xhr.onreadystatechange = function () {
           try {
-            if (xhr.readyState === 4 && xhr.status === 200) {
+
+            window.localStorage.setItem('token',JSON.parse(xhr.responseText).token);
+            if (xhr.readyState === 4 && xhr.status === 200){
               window.location.replace("/consent_form");
             }
             else if (xhr.readyState === 4 && xhr.status === 401) {
               document.getElementById('output').innerHTML =  JSON.parse(xhr.responseText).message;
             }
             else {
-              document.getElementById('output').innerHTML =  JSON.parse(xhr.responseText).message;
+              document.getElementById('output').innerHTML =  'Login Email or Password Invalid.';
             }
           }
           catch (err) {

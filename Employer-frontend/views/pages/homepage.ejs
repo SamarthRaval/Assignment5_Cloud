@@ -346,7 +346,7 @@ For more information, see:
       if (password != '') {
         var xhr = new XMLHttpRequest(),
           method = "POST",
-          url = "http://localhost:1337/account/login";
+          url = "https://employer-backend.herokuapp.com/account/login";
 
         let params = JSON.stringify({ employeeId, password });
         xhr.open(method, url, true);

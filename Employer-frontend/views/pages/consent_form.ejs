@@ -351,7 +351,7 @@ For more information, see:
         if (checkbox) {
           var xhr = new XMLHttpRequest(),
             method = "POST",
-            url = "http://localhost:1337/share/borrower-info";
+            url = "https://employer-backend.herokuapp.com/share/borrower-info";
 
           let params = JSON.stringify({ url, appNo });
           xhr.open(method, url, true);

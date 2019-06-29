@@ -324,6 +324,10 @@ For more information, see:
   .pocket {
     display: none;
   }
+
+  div.outputmessage{
+    color:red;
+  }
 </style>
 <script type="text/javascript">
   setTimeout(function sunrise() {
@@ -350,15 +354,13 @@ For more information, see:
         xhr.onreadystatechange = function () {
           try {
             if (xhr.readyState === 4 && xhr.status === 200) {
-              console.log("response", xhr.responseText);
-              document.getElementById('output').innerHTML = 'BMI = ' + xhr.responseText;
               window.location.replace("/consent_form");
             }
             else if (xhr.readyState === 4 && xhr.status === 401) {
-              console.log("Unauthorized User");
+              document.getElementById('output').innerHTML =  JSON.parse(xhr.responseText).message;
             }
-            else if (xhr.readyState === 4 && xhr.status === 400) {
-              console.log("Bad Request");
+            else {
+              document.getElementById('output').innerHTML =  JSON.parse(xhr.responseText).message;
             }
           }
           catch (err) {
@@ -402,7 +404,7 @@ For more information, see:
             <button class="btn btn-primary center" onclick="login()">Submit</button></div><br>
         </div>
         <br>
-        <div id="output"></div>
+        <div id="output" class="outputmessage"></div>
       </div>
     </div>
   </div>

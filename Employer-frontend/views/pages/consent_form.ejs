@@ -358,10 +358,13 @@ For more information, see:
           xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
               console.log(xhr.responseText);
-              document.getElementById('output').innerHTML = 'BMI = ' + xhr.responseText;
+              document.getElementById('output').innerHTML = JSON.parse(xhr.responseText).message;
             }
             else if(xhr.readyState === 4 && xhr.status === 409){
-              console.log("Third party conflict");
+              document.getElementById('output').innerHTML = JSON.parse(xhr.responseText).message;
+            }
+            else{
+              document.getElementById('output').innerHTML = JSON.parse(xhr.responseText).message;
             }
 
           };

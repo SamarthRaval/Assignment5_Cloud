@@ -343,27 +343,29 @@ For more information, see:
   }
 
   function consent() {
-    var url = document.getElementById("url").value;
+    var brokerAddress = document.getElementById("url").value;
     var appNo = document.getElementById("appNo").value;
-    var checkbox = document.getElementById("checkbox").checked;
+    var consentCheck = document.getElementById("checkbox").checked;
+
+    var applicationNo = parseInt(appNo, 10);
+    var consent = JSON.parse(consentCheck);
     //REFERENCE STARTS------- REGEX TAKEN FROM http://urlregex.com/
     var regexp = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[\-;:&=\+\$,\w]+@)?[A-Za-z0-9\.\-]+|(?:www\.|[\-;:&=\+\$,\w]+@)[A-Za-z0-9\.\-]+)((?:\/[\+~%\/\.\w\-_]*)?\??(?:[\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w]*))?)/;
     //REFERENCE ENDS
-    console.log(regexp.test(url));
-    console.log(checkbox);
     document.getElementById('URLerror').innerHTML = '';
     document.getElementById('appNumberError').innerHTML = '';
     document.getElementById('consentError').innerHTML = '';
 
-    if (appNo != '') {
-      if (regexp.test(url) && url != '') {
+    if (applicationNo != '') {
+      if (regexp.test(brokerAddress) && brokerAddress != '') {
 
-        if (checkbox) {
+        if (consent) {
           var xhr = new XMLHttpRequest(),
             method = "POST",
-            url = "https://employer-backend.herokuapp.com/share/borrower-info";
+            url = "https://employer-backend.herokuapp.com/share/borrower";
 
-          let params = JSON.stringify({ url, appNo });
+          let params = JSON.stringify({ applicationNo, brokerAddress , consent});
+          console.log(params);
           xhr.open(method, url, true);
           xhr.onreadystatechange = function () {
             if (xhr.readyState === 4 && xhr.status === 200) {
@@ -373,12 +375,16 @@ For more information, see:
             else if (xhr.readyState === 4 && xhr.status === 409) {
               document.getElementById('output').innerHTML = JSON.parse(xhr.responseText).message;
             }
+            else if (xhr.readyState === 4 && xhr.status === 400) {
+              document.getElementById('output').innerHTML = JSON.parse(xhr.responseText).message;
+            }
             else {
               document.getElementById('output').innerHTML = JSON.parse(xhr.responseText).message;
             }
 
           };
-          xhr.setRequestHeader('Content-Type', 'application/json')
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.setRequestHeader('Authorization', 'Bearer '+ window.localStorage.getItem('token'));
           xhr.send(params);
         }
         else {

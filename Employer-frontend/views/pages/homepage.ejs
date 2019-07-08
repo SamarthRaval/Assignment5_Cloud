@@ -349,6 +349,7 @@ For more information, see:
           url = "https://employer-backend.herokuapp.com/account/login";
 
         let params = JSON.stringify({ employeeId, password });
+        console.log(params);
         xhr.open(method, url, true);
         //window.localStorage.setItem('token',JSON.parse(xhr.responseText).token);
 
